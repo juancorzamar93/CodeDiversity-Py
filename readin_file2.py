@@ -1,5 +1,7 @@
-#Import file .txt
+#Import file .csv
 import sys
+import csv
+
 if len(sys.argv) != 2:
     raise SystemExit('Usage: reading_file.py filename')
 
@@ -10,19 +12,17 @@ total = 0.0
 total_items = 0
 
 with open(filename) as f:
+    rows = csv.reader(f)
     header = next(f)
-    for i, line in enumerate(f):
-        line = line.string()
-        parts = line.split(',')
-        parts[1] = parts[1].strip('"')
-        parts[2] = int(parts[2])
-        parts[6] = float(parts[6])
+    for i, row in enumerate(rows):
+        row[2] = int(row[2])
+        row[6] = float(row[6])
 
         if account is None:
-            account = parts[1]
+            account = row[1]
 
-        total_items += parts[2]
-        total += parts[2] * parts[6]
+        total_items += row[2]
+        total += row[2] * row[6]
 
 print("Account Name: {}".format(account))
 print("Total Items: {:<5}".format(total_items))
