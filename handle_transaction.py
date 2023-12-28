@@ -6,6 +6,8 @@ def shopping_cost(filename):
     total = 0.0
     total_items = 0
 
+    show_failure = lambda i, err, row: print(i, "reason:", err, "\n--- row:", row, end="\n\n")
+
     with open(filename) as f:
         rows = csv.reader(f)
         header = next(f)
@@ -13,14 +15,12 @@ def shopping_cost(filename):
             try:
                 row[2] = int(row[2])
             except ValueError as err:
-                print(i, "reason:", err)
-                print("---", "row", row, end="\n\n")
+                show_failure(i, err, row)
                 continue
             try:
                 row[6] = float(row[6])
             except ValueError as err:
-                print(i, "reason:", err)
-                print("---", "row", row, end="\n\n")
+                show_failure(i, err, row)
                 continue
         
         if account is None:
